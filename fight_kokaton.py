@@ -141,6 +141,9 @@ class Bomb:
         screen.blit(self.img, self.rct)
 
 class score:
+    """
+    スコアに関するクラス
+    """
     def __init__(self):
         self.fonto = pg.font.Font(None, 50)
         self.score = 0
@@ -160,7 +163,7 @@ def main():
     bird = Bird((300, 200))
     # bomb = Bomb((255, 0, 0), 10)
     bombs = [Bomb((255,0,0),10) for _ in range(NUM_OF_BOMBS)]
-    beam = None  # ゲーム初期化時にはビームは存在しない
+    beams = []  # ゲーム初期化時にはビームは存在しない
     Score = score()
     clock = pg.time.Clock()
     tmr = 0
@@ -171,7 +174,7 @@ def main():
                 return
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                  # スペースキー押下でBeamクラスのインスタンス生成
-                 beam = Beam(bird)            
+                 beams.append(Beam(bird))            
         screen.blit(bg_img, [0, 0])
         
         for bomb in bombs:
@@ -186,19 +189,23 @@ def main():
                 return
         
         for i ,bomb in enumerate(bombs):
-            if beam is not None:
-                if beam.rct.colliderect(bomb.rct):  # ビームで爆弾を打ち落としたら
-                    bird.change_img(6, screen)
-                    beam = None
-                    bombs[i] = None
-                    Score.score += 1
+            for n, beam in enumerate(beams):
+                if beams is not []:
+                    if beam.rct.colliderect(bomb.rct):  # ビームで爆弾を打ち落としたら
+                        bird.change_img(6, screen)
+                        beams.pop(n)
+                        bombs[i] = None
+                        Score.score += 1
         bombs = [bomb for bomb in bombs if bomb is not None]
+        beams = [beam for beam in beams if beam is not None]
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
         Score.update(screen)
-        if beam is not None:
+        for i , beam in enumerate(beams):
             beam.update(screen)  
+            if check_bound(beam.rct) != (True, True):
+                beams.pop(i)
         for bomb in bombs:
             bomb.update(screen)
         pg.display.update()
