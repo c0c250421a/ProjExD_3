@@ -107,7 +107,8 @@ class Beam:
          """
          if check_bound(self.rct) == (True, True):
              self.rct.move_ip(self.vx, self.vy)
-             screen.blit(self.img, self.rct)    
+             screen.blit(self.img, self.rct)
+                 
 
 
 class Bomb:
@@ -190,14 +191,14 @@ def main():
         
         for i ,bomb in enumerate(bombs):
             for n, beam in enumerate(beams):
-                if beams is not []:
+                if beam is not None and bomb is not None:
                     if beam.rct.colliderect(bomb.rct):  # ビームで爆弾を打ち落としたら
                         bird.change_img(6, screen)
-                        beams.pop(n)
+                        beams[n] = None
                         bombs[i] = None
                         Score.score += 1
         bombs = [bomb for bomb in bombs if bomb is not None]
-        beams = [beam for beam in beams if beam is not None]
+        beams = [beam for beam in beams if beam is not None] 
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
@@ -205,7 +206,8 @@ def main():
         for i , beam in enumerate(beams):
             beam.update(screen)  
             if check_bound(beam.rct) == (False, False):
-                beams.pop(i)
+                beams[i] = None
+        beams = [beam for beam in beams if beam is not None]
         for bomb in bombs:
             bomb.update(screen)
         pg.display.update()
