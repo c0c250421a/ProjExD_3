@@ -146,6 +146,9 @@ class score:
     スコアに関するクラス
     """
     def __init__(self):
+        """
+        
+        """
         self.fonto = pg.font.Font(None, 50)
         self.score = 0
         self.color = (0 , 0, 255)
@@ -158,9 +161,20 @@ class score:
         screen.blit(self.img, self.rct)
 
 class Explosion:
-    def __init__(self):
+    def __init__(self,bomb:"Bomb"):
+        """
         
-
+        """
+        self.img = pg.image.load(f"fig/explosion.gif")
+        self.imgs = [pg.transform.flip(self.img, True, False),pg.transform.flip(self.img, True, True),pg.transform.flip(self.img, False, False),pg.transform.flip(self.img, False, True)]
+        self.rct = self.img.get_rect()
+        self.rct.center = bomb.rct.center
+        self.life = 10
+    def update(self):
+        self.life -= 1
+        if self.life >= 0:
+            self.imgs[-self.life]
+    
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))    
@@ -171,6 +185,7 @@ def main():
     beams = []  # ゲーム初期化時にはビームは存在しない
     Score = score()
     clock = pg.time.Clock()
+    explosion = []
     tmr = 0
 
     while True:
