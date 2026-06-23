@@ -147,7 +147,7 @@ class score:
     """
     def __init__(self):
         """
-        
+        スコアの初期設定
         """
         self.fonto = pg.font.Font(None, 50)
         self.score = 0
@@ -157,6 +157,9 @@ class score:
         self.rct.center = 100 , HEIGHT - 50
 
     def update(self,screen : pg.Surface):
+        """
+        現在のスコアに更新
+        """
         self.img = self.fonto.render(f"Score:{self.score}", 0, self.color)
         screen.blit(self.img, self.rct)
 
