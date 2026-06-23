@@ -203,13 +203,16 @@ def main():
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
         Score.update(screen)
+
         for i , beam in enumerate(beams):
             beam.update(screen)  
-            if check_bound(beam.rct) == (False, False):
+            if check_bound(beam.rct) != (True, True):
                 beams[i] = None
         beams = [beam for beam in beams if beam is not None]
+
         for bomb in bombs:
             bomb.update(screen)
+
         pg.display.update()
         tmr += 1
         clock.tick(50)
