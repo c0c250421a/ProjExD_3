@@ -204,7 +204,7 @@ def main():
         Score.update(screen)
         for i , beam in enumerate(beams):
             beam.update(screen)  
-            if check_bound(beam.rct) != (True, True):
+            if check_bound(beam.rct) == (False, False):
                 beams.pop(i)
         for bomb in bombs:
             bomb.update(screen)
