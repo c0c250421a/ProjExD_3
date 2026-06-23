@@ -163,8 +163,6 @@ def main():
                 # ゲームオーバー時に，こうかとん画像を切り替え，1秒間表示させる
                 bird.change_img(8, screen)
                 pg.display.update()
-                time.sleep(1)
-                return
         
         if bomb is not None:
             if beam is not None:
